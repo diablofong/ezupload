@@ -7,6 +7,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
+use app\models\RegisterForm;
 use app\models\EzUser;
 use app\models\ContactForm;
 
@@ -17,13 +18,18 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['logout','personal'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        //'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                    // [
+                    //     'actions' => ['personal'],
+                    //     'allow' => true,
+                    //     'roles' => ['?'],
+                    // ],
                 ],
             ],
             'verbs' => [
@@ -55,8 +61,9 @@ class SiteController extends Controller
 
     public function actionLogin()
     {
+        
         if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
+            //return $this->goHome();
         }
 
         $model = new LoginForm();
@@ -72,6 +79,27 @@ class SiteController extends Controller
     public function actionRegister()
     {
             $model = new EzUser();
+            
+            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+               
+               if ($model->isRegister()) {
+                   Yii::$app->session->setFlash('registerng');
+                   return $this->refresh();
+               }
+
+               $model->password = hash_hmac('sha256', $model->password , '');
+               
+               $model->save();
+               
+               Yii::$app->session->setFlash('registerok');
+               
+               $model = new LoginForm();
+               
+               return $this->redirect('login', [
+                    'model' => $model,
+                ]);
+            };
+            
             return $this->render('register', [
                 'model' => $model,
             ]);
@@ -84,18 +112,20 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    public function actionContact()
+    public function actionPersonal()
     {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        } else {
-            return $this->render('contact', [
-                'model' => $model,
-            ]);
+        $model = new RegisterForm();
+        $usermodel = EzUser::findOne(Yii::$app->user->id);
+        if ($model->load(Yii::$app->request->post())) {
+           var_dump($usermodel);
+           foreach ($model->getIterator() as $key => $value) {
+               echo $key;
+           }
+           
         }
+        return $this->render('personal', [
+            'model' => $model,
+        ]);
     }
 
     public function actionAbout()

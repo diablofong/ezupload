@@ -10,11 +10,10 @@ use yii\base\Model;
  */
 class RegisterForm extends Model
 {
-    public $username;
+    public $account;
     public $password;
-    public $rememberMe = true;
-
-    private $_user = false;
+    public $username;
+    public $email;
 
 
     /**
@@ -23,66 +22,25 @@ class RegisterForm extends Model
     public function rules()
     {
         return [
-            // username and password are both required
-            [['username', 'password'], 'required'],
-            // rememberMe must be a boolean value
-            ['rememberMe', 'boolean'],
-            // password is validated by validatePassword()
-            ['password', 'validatePassword'],
+            [['account'], 'string', 'max' => 20],
+            [['password'], 'string', 'max' => 255],
+            [['username'], 'string', 'max' => 11],
+            [['email'], 'string', 'max' => 100]
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
-            'username'=>'帳號',
-            'password'=>'密碼',
+            'id' => '使用者序號',
+            'account' => '使用者帳號',
+            'password' => '使用者密碼',
+            'username' => '使用者名稱',
+            'email' => '使用者信箱',
         ];
     }
 
-
-    /**
-     * Validates the password.
-     * This method serves as the inline validation for password.
-     *
-     * @param string $attribute the attribute currently being validated
-     * @param array $params the additional name-value pairs given in the rule
-     */
-    public function validatePassword($attribute, $params)
-    {
-        if (!$this->hasErrors()) {
-            $user = $this->getUser();
-
-            if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
-            }
-        }
-    }
-
-    /**
-     * Logs in a user using the provided username and password.
-     * @return boolean whether the user is logged in successfully
-     */
-    public function login()
-    {
-        if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Finds user by [[username]]
-     *
-     * @return User|null
-     */
-    public function getUser()
-    {
-        if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
-        }
-
-        return $this->_user;
-    }
 }

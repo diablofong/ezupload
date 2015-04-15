@@ -29,6 +29,7 @@ class EzUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
+            [['account','password','username','email'], 'required'],
             [['account'], 'string', 'max' => 20],
             [['password'], 'string', 'max' => 255],
             [['username'], 'string', 'max' => 11],
@@ -55,7 +56,7 @@ class EzUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public static function findIdentity($id)
     {
-        //return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return self::find()->where('id = :id',[':id'=>$id])->one();
     }
 
     /**
@@ -63,13 +64,7 @@ class EzUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        // foreach (self::$users as $user) {
-        //     if ($user['accessToken'] === $token) {
-        //         return new static($user);
-        //     }
-        // }
-
-        return null;
+        return static::findOne(['access_token' => $token]);
     }
 
     /**
@@ -80,13 +75,7 @@ class EzUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public static function findByUsername($username)
     {
-        // foreach (self::$users as $user) {
-        //     if (strcasecmp($user['username'], $username) === 0) {
-        //         return new static($user);
-        //     }
-        // }
-
-        return null;
+        return self::find()->where('account = :account',[':account'=>$username])->one();
     }
 
     /**
@@ -94,7 +83,7 @@ class EzUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function getId()
     {
-        //return $this->id;
+        return $this->id;
     }
 
     /**
@@ -102,7 +91,7 @@ class EzUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function getAuthKey()
     {
-        //return $this->authKey;
+        return $this->authKey;
     }
 
     /**
@@ -110,7 +99,7 @@ class EzUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function validateAuthKey($authKey)
     {
-        //return $this->authKey === $authKey;
+        return $this->authKey === $authKey;
     }
 
     /**
@@ -121,6 +110,21 @@ class EzUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function validatePassword($password)
     {
-        //return $this->password === $password;
+        return $this->password === hash_hmac('sha256', $password , '');
     }
+
+    /**
+     * 判斷是否重複註冊方法
+     * @return boolean 有註冊過會員直接回傳true反之false
+     */
+    public function isRegister()
+    {
+        $model = self::find()->where('account = :account',[':account'=>$this->account])->one();
+        if (isset($model)) {
+            return true;
+        }
+        return false;
+    }
+
+
 }
