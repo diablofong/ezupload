@@ -114,14 +114,11 @@ class SiteController extends Controller
 
     public function actionPersonal()
     {
-        $model = new RegisterForm();
-        $usermodel = EzUser::findOne(Yii::$app->user->id);
-        if ($model->load(Yii::$app->request->post())) {
-           var_dump($usermodel);
-           foreach ($model->getIterator() as $key => $value) {
-               echo $key;
-           }
-           
+        //$model = new RegisterForm();
+        $model = EzUser::findOne(Yii::$app->user->id);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $model->password = hash_hmac('sha256', $model->password , '');
+            $model->save();
         }
         return $this->render('personal', [
             'model' => $model,
