@@ -52,7 +52,7 @@ ezupload檔案上傳系統是一個簡易的檔案上傳系統，提供了使用
 
 6. 修改資料庫連線設定，開啟 ``` <your project name>/config/db.php ``` 設定資料庫連線ip、資料庫名稱、使用者帳號與密碼
 
-7. 開啟瀏覽器輸入 ``` http:\\localhost\<your project name>\web ``` 就可以開啟系統
+7. 開啟瀏覽器輸入 ``` http:\\localhost\<your project name>\web ``` 就可以開啟系統，管理者登入帳密為admin/admin
 
 ## 系統圖片
 
