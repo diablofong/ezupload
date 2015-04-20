@@ -7,6 +7,7 @@ use yii\base\Model;
 
 /**
  * LoginForm is the model behind the login form.
+ * @author duncan <[duncan@mail.npust.edu.tw]>
  */
 class LoginForm extends Model
 {

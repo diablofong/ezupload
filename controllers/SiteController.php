@@ -11,6 +11,10 @@ use app\models\RegisterForm;
 use app\models\EzUser;
 use app\models\ContactForm;
 
+/**
+ * SiteController 
+ * @author duncan <[duncan@mail.npust.edu.tw]>
+ */
 class SiteController extends Controller
 {
     public function behaviors()
@@ -54,11 +58,19 @@ class SiteController extends Controller
         ];
     }
 
+    /**
+     * 系統首頁
+     * @return [type] [description]
+     */
     public function actionIndex()
     {
         return $this->render('index');
     }
 
+    /**
+     * 登入系統
+     *
+     */
     public function actionLogin()
     {
         
@@ -76,6 +88,10 @@ class SiteController extends Controller
         }
     }
 
+    /**
+     * 使用者註冊
+     * 
+     */
     public function actionRegister()
     {
             $model = new EzUser();
@@ -105,6 +121,10 @@ class SiteController extends Controller
             ]);
     }
 
+    /**
+     * 登出系統
+     * 
+     */
     public function actionLogout()
     {
         Yii::$app->user->logout();
@@ -112,6 +132,10 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
+    /**
+     * 使用者修改個人資料
+     * @return [type] [description]
+     */
     public function actionPersonal()
     {
         //$model = new RegisterForm();
@@ -125,8 +149,4 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
 }

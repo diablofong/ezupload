@@ -7,6 +7,7 @@ use Yii;
 /**
  * This is the model class for table "ez_user".
  *
+ * @author duncan <[duncan@mail.npust.edu.tw]>
  * @property integer $id
  * @property string $account
  * @property string $password

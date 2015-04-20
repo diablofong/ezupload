@@ -36,7 +36,7 @@ AppAsset::register($this);
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
                     ['label' => '首頁', 'url' => ['/site/index']],
-                    ['label' => '管理上傳資料', 'url' => ['/site/index']],
+                    ['label' => '管理上傳資料', 'url' => ['/admin/index']],
                     ['label' => '個人檔案管理', 'url' => ['/user-file/index']],
                     ['label' => '修改個人資料', 'url' => ['/site/personal']],
                     Yii::$app->user->isGuest ?

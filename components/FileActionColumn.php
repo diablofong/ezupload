@@ -8,6 +8,11 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 
+/**
+ * FileActionColumn is advanced ActionColumn for ezupload grid view
+ * @author duncan <[duncan@mail.npust.edu.tw]>
+ */
+
 class FileActionColumn extends ActionColumn
 {
 

@@ -6,7 +6,8 @@ use Yii;
 
 /**
  * This is the model class for table "ez_filepath".
- *
+ * 
+ * @author duncan <[duncan@mail.npust.edu.tw]>
  * @property integer $id
  * @property integer $userid
  * @property string $filename
@@ -51,5 +52,10 @@ class EzFilepath extends \yii\db\ActiveRecord
             'uploaddate' => '上傳時間',
             'file' => '檔案',
         ];
+    }
+
+    public function getezuser()
+    {
+        return $this->hasOne(EzUser::className(), ['id' => 'userid']);
     }
 }

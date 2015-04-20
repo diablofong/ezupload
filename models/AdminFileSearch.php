@@ -9,9 +9,13 @@ use app\models\EzFilepath;
 
 /**
  * AdminFileSearch represents the model behind the search form about `app\models\EzFilepath`.
+ * @author duncan <[duncan@mail.npust.edu.tw]>
+ *
  */
 class AdminFileSearch extends EzFilepath
 {
+    public $name ;
+
     /**
      * @inheritdoc
      */
@@ -19,7 +23,7 @@ class AdminFileSearch extends EzFilepath
     {
         return [
             [['id', 'userid'], 'integer'],
-            [['filename', 'uploaddate'], 'safe'],
+            [['filename', 'uploaddate','name'], 'safe'],
         ];
     }
 
@@ -41,11 +45,18 @@ class AdminFileSearch extends EzFilepath
      */
     public function search($params)
     {
-        $query = EzFilepath::find();
+        $query = EzFilepath::find()->joinWith(['ezuser']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $dataProvider->sort->attributes['name'] = [
+            // The tables are the ones our relation are configured to
+            // in my case they are prefixed with "tbl_"
+            'asc' => ['ez_user.username' => SORT_ASC],
+            'desc' => ['ez_user.username' => SORT_DESC],
+        ];  
 
         $this->load($params);
 
@@ -62,6 +73,8 @@ class AdminFileSearch extends EzFilepath
         ]);
 
         $query->andFilterWhere(['like', 'filename', $this->filename]);
+
+        $query->andFilterWhere(['like', 'ez_user.username', $this->name]);
 
         return $dataProvider;
     }

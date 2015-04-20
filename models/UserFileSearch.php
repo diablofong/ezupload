@@ -9,6 +9,7 @@ use app\models\EzFilepath;
 
 /**
  * UserFileSearch represents the model behind the search form about `app\models\EzFilepath`.
+ * @author duncan <[duncan@mail.npust.edu.tw]>
  */
 class UserFileSearch extends EzFilepath
 {

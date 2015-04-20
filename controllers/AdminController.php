@@ -3,6 +3,8 @@
 namespace app\Controllers;
 
 use Yii;
+use yii\filters\AccessControl;
+use app\components\AccessAdminRule;
 use app\models\EzFilepath;
 use app\models\AdminFileSearch;
 use yii\web\Controller;
@@ -11,16 +13,31 @@ use yii\filters\VerbFilter;
 
 /**
  * AdminController implements the CRUD actions for EzFilepath model.
+ * @author duncan <[duncan@mail.npust.edu.tw]>
  */
 class AdminController extends Controller
 {
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                 'ruleConfig' => [
+                    'class' => AccessAdminRule::className(),
+                ],
+                'only' => ['index','download','delete'],
+                'rules' => [
+                    [
+                        //'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['*'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['post'],
+                    'logout' => ['post'],
                 ],
             ],
         ];
@@ -34,41 +51,11 @@ class AdminController extends Controller
     {
         $searchModel = new AdminFileSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        //var_dump($dataProvider);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-    }
-
-    /**
-     * Displays a single EzFilepath model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new EzFilepath model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new EzFilepath();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
     }
 
     /**
@@ -77,17 +64,11 @@ class AdminController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionDownload($id)
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+        return Yii::$app->response->sendFile($model->filepath.'/'.$model->filename);
     }
 
     /**
@@ -98,8 +79,13 @@ class AdminController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
 
+        $model = $this->findModel($id);
+        
+        FileHelper::removeDirectory($model->filepath);//移除檔案
+        
+        $model->delete();
+        
         return $this->redirect(['index']);
     }
 

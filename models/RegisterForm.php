@@ -6,7 +6,8 @@ use Yii;
 use yii\base\Model;
 
 /**
- * LoginForm is the model behind the login form.
+ * RegisterForm is the model behind the register form.
+ * @author duncan <[duncan@mail.npust.edu.tw]>
  */
 class RegisterForm extends Model
 {

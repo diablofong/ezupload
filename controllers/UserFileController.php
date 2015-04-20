@@ -3,6 +3,7 @@
 namespace app\Controllers;
 
 use Yii;
+use yii\filters\AccessControl;
 use app\models\EzFilepath;
 use app\models\UserFileSearch;
 use app\models\UploadForm;
@@ -14,16 +15,34 @@ use yii\helpers\FileHelper;
 
 /**
  * UserFileController implements the CRUD actions for EzFilepath model.
+ * @author duncan <[duncan@mail.npust.edu.tw]>
+ *
  */
 class UserFileController extends Controller
 {
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index','create','download','delete'],
+                'rules' => [
+                    [
+                        //'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    // [
+                    //     'actions' => ['personal'],
+                    //     'allow' => true,
+                    //     'roles' => ['?'],
+                    // ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['post'],
+                    'logout' => ['post'],
                 ],
             ],
         ];
