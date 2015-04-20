@@ -3,26 +3,13 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model app\models\LoginForm */
-
-$this->title = '註冊帳號';
+$this->title = '修改個人資料';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
-
-    <?php if (Yii::$app->session->hasFlash('registerng')) {?>
-    
-    <div class="alert alert-danger alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>會員已註冊，請勿重新註冊</strong>
-    </div>
-    
-    <?php };?>
-
+<div class="site-about">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php $form = ActiveForm::begin([
+   <?php $form = ActiveForm::begin([
         'id' => 'register-form',
         // 'options' => ['class' => 'form-horizontal'],
         // 'fieldConfig' => [
@@ -41,8 +28,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="pull-right">
         <div class="col-lg-offset-1 col-lg-11">
-            <?= Html::submitButton('註冊', ['class' => 'btn btn-primary', 'name' => 'register-button']) ?>
-            <?= Html::a('取消註冊','login',['class' => 'btn btn-default']); ?>
+            <?= Html::submitButton('存擋', ['class' => 'btn btn-primary', 'name' => 'register-button']) ?>
+            <?= Html::a('取消','index',['class' => 'btn btn-default']); ?>
         </div>
     </div>
 
