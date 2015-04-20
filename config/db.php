@@ -3,7 +3,7 @@
 return [
     'class' => 'yii\db\Connection',
     'dsn' => 'mysql:host=localhost;dbname=ezupload',
-    'username' => 'ezupload',
-    'password' => '!2#zaqwedcxs',
+    'username' => '',
+    'password' => '',
     'charset' => 'utf8',
 ];

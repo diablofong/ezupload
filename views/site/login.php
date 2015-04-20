@@ -10,6 +10,16 @@ $this->title = '登入';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">
+
+    <?php if (Yii::$app->session->hasFlash('registerok')) {?>
+    
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>註冊成功.</strong>
+    </div>
+    
+    <?php };?>
+
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?php $form = ActiveForm::begin([

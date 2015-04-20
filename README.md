@@ -1,89 +1,70 @@
-Yii 2 Basic Application Template
-================================
+#ezupload檔案上傳系統
+-
+ezupload檔案上傳系統是一個簡易的檔案上傳系統，提供了使用者註冊與上傳並管理自己檔案功能，而管理者也可以輕易的管理所有上傳的檔案，該系統可以快速的建立並應用於研討會論文上傳管理或學生專題檔案上傳管理之用。
 
-Yii 2 Basic Application Template is a skeleton Yii 2 application best for
-rapidly creating small projects.
+##建置教學
 
-The template contains the basic features including user login/logout and a contact page.
-It includes all commonly used configurations that would allow you to focus on adding new
-features to your application.
+1. php版本需要5.4以上
 
+2. 下載壓縮檔後解壓縮放置您的網站目錄，如 ``` /var/www/html ```
 
-DIRECTORY STRUCTURE
--------------------
+3. 先新增資料庫後，再將此資料庫語法貼上phpmyadmin或資料庫管理工具新增資料表單
+	
+	``` sql
+	
+	DROP TABLE IF EXISTS 'ez_filepath';
+	
+	CREATE TABLE 'ez_filepath' (
+  		'id' int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '檔案序號',
+  		'userid' int(11) NOT NULL COMMENT '使用者序號',
+  		'filename' varchar(255) DEFAULT '' COMMENT '檔案名稱',
+  		'filepath' varchar(255) DEFAULT '' COMMENT '檔案路徑',
+  		'uploaddate' timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '上傳時間',
+  		PRIMARY KEY ('id'),
+  		KEY 'userid' ('userid')
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	
+	DROP TABLE IF EXISTS 'ez_user';
 
-      assets/             contains assets definition
-      commands/           contains console commands (controllers)
-      config/             contains application configurations
-      controllers/        contains Web controller classes
-      mail/               contains view files for e-mails
-      models/             contains model classes
-      runtime/            contains files generated during runtime
-      tests/              contains various tests for the basic application
-      vendor/             contains dependent 3rd-party packages
-      views/              contains view files for the Web application
-      web/                contains the entry script and Web resources
+	CREATE TABLE 'ez_user' (
+  		'id' int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '使用者序號',
+  		'account' varchar(20) NOT NULL DEFAULT '' COMMENT '使用者帳號',
+  		'password' varchar(255) NOT NULL DEFAULT '' COMMENT '使用者密碼',
+  		'username' varchar(11) NOT NULL DEFAULT '' COMMENT '使用者名稱',
+  		'email' varchar(100) NOT NULL DEFAULT '' COMMENT '使用者信箱',
+  		'role' varchar(1) DEFAULT NULL COMMENT '使用者角色',
+  		PRIMARY KEY ('id'),
+  		KEY 'account' ('account')
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+	LOCK TABLES 'ez_user' WRITE;
 
+	INSERT INTO 'ez_user' ('id', 'account', 'password', 'username', 		'email', 'role')
+	VALUES
+(1,'admin','8d5f8aeeb64e3ce20b537d04c486407eaf489646617cfcf493e76f5b794fa080','管理者','admin@example.com','*');
 
-REQUIREMENTS
-------------
+	UNLOCK TABLES;
+	
+	```
+4. 修改檔案目錄權限為可以讀寫，其目錄為 ``` <your project name>/web ```
 
-The minimum requirement by this application template that your Web server supports PHP 5.4.0.
+5. 開啟終端機輸入以下指令安裝系統需要的套件 ``` composer install ```
 
+6. 修改資料庫連線設定，開啟 ``` <your project name>/config/db.php ``` 設定資料庫連線ip、資料庫名稱、使用者帳號與密碼
 
-INSTALLATION
-------------
+7. 開啟瀏覽器輸入 ``` http:\\localhost\<your project name>\web ``` 就可以開啟系統
 
-### Install from an Archive File
+## 系統圖片
 
-Extract the archive file downloaded from [yiiframework.com](http://www.yiiframework.com/download/) to
-a directory named `basic` that is directly under the Web root.
+![Alt text](web/image/1.png)
 
-You can then access the application through the following URL:
+![Alt text](web/image/2.png)
 
-~~~
-http://localhost/basic/web/
-~~~
+![Alt text](web/image/3.png)
 
-
-### Install via Composer
-
-If you do not have [Composer](http://getcomposer.org/), you may install it by following the instructions
-at [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
-
-You can then install this application template using the following command:
-
-~~~
-php composer.phar global require "fxp/composer-asset-plugin:1.0.0"
-php composer.phar create-project --prefer-dist --stability=dev yiisoft/yii2-app-basic basic
-~~~
-
-Now you should be able to access the application through the following URL, assuming `basic` is the directory
-directly under the Web root.
-
-~~~
-http://localhost/basic/web/
-~~~
+![Alt text](web/image/4.png)
 
 
-CONFIGURATION
--------------
+## 版權說明
 
-### Database
-
-Edit the file `config/db.php` with real data, for example:
-
-```php
-return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
-    'username' => 'root',
-    'password' => '1234',
-    'charset' => 'utf8',
-];
-```
-
-**NOTE:** Yii won't create the database for you, this has to be done manually before you can access it.
-
-Also check and edit the other files in the `config/` directory to customize your application.
+The MIT License (MIT)
