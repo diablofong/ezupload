@@ -23,7 +23,9 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'name',
                 'label' => '上傳者名稱',
-                'value' => 'ez_user.username',
+                'value' => function ($data){
+                    return $data->ezuser->username;
+                }
             ],
             'filename',
             'uploaddate',
