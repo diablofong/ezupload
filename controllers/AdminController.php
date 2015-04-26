@@ -10,6 +10,7 @@ use app\models\AdminFileSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\FileHelper;
 
 /**
  * AdminController implements the CRUD actions for EzFilepath model.
