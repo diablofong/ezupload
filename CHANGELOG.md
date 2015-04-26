@@ -6,7 +6,6 @@
 - add ez_filepath and ez_user migration files
 - modify README
 
-
 ## version 1.0.0
 
 - project online

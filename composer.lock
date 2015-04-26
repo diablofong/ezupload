@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "345f8ffffe5d3c55bdfd4372348fde76",
+    "hash": "0c193ffdb13d80d30391f5c9aba91e95",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -1753,6 +1753,7 @@
             }
         },
         {
+<<<<<<< HEAD
             "name": "c006/yii2-migration-utility",
             "version": "dev-master",
             "source": {
@@ -1792,6 +1793,8 @@
             "time": "2014-12-15 20:21:25"
         },
         {
+=======
+>>>>>>> a888493868a5e7fa058048615a9a3222d1c50fb6
             "name": "fzaninotto/faker",
             "version": "v1.4.0",
             "source": {
@@ -2064,9 +2067,13 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
+<<<<<<< HEAD
     "stability-flags": {
         "c006/yii2-migration-utility": 20
     },
+=======
+    "stability-flags": [],
+>>>>>>> a888493868a5e7fa058048615a9a3222d1c50fb6
     "prefer-stable": false,
     "platform": {
         "php": ">=5.4.0"
